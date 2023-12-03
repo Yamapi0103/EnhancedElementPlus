@@ -4,13 +4,14 @@ map:
 realPath: src/__docs__/index.zh-CN.md
 ---
 
-## 按钮
+## basic
 
 渲染效果如下
 
-<demo src="./demo.vue"
-  title="Demo 演示"
-  desc="这是一个 Demo 渲染示例">
+<demo src="./basicForm.vue"
+  title="Demo enhanced form"
+  desc="示範傳入各種type 的form item">
 </demo>
 
-<API src="../button.vue" lang="zh"></API>
+<API src="../EnhancedElForm.vue" lang="zh"></API>
+

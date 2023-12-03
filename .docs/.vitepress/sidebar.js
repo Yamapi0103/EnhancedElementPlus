@@ -9,10 +9,18 @@ export const sidebar = {
   ],
   '/': [
     {
-      text: '介绍',
+      text: '介紹',
       items: [
         { text: '按钮', link: '/' },
       ],
     },
   ],
+  '/guide/': [
+    {
+      text: 'vdfvdf',
+      items: [
+        {text: 'code edit', link: '/csdcds'}
+      ]
+    }
+  ]
 };

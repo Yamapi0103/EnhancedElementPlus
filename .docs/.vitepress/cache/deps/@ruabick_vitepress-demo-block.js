@@ -1,5 +1,5 @@
 import {
-  computed,
+  computed2 as computed,
   createBaseVNode,
   createBlock,
   createElementBlock,
@@ -18,7 +18,8 @@ import {
   vShow,
   withCtx,
   withDirectives
-} from "./chunk-CSMLHSNT.js";
+} from "./chunk-3C4OEVM2.js";
+import "./chunk-LQ2VYIYD.js";
 
 // node_modules/@ruabick/vitepress-demo-block/dist/vitepress-demo-block.js
 var w = (e, o) => {
