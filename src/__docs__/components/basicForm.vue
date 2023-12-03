@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {EnhancedElForm} from 'enhanced_element_plus'
+import {EnhancedElForm} from '@src'
 export default {
   name: 'basic form',
   components: {

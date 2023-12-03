@@ -1,7 +1,6 @@
 ---
 map:
   path: /
-realPath: src/__docs__/index.md
 ---
 
 ## 前言

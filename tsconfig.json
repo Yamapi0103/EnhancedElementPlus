@@ -29,12 +29,9 @@
         "declarationDir": "dist",
         "rootDir": ".",
         "paths": {
-            "@/*": [
+            "@src/*": [
                 "src/*"
             ],
-            "enhanced_element_plus": [
-                "src/index.ts"
-            ]
         }
     },
     "include": [

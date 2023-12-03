@@ -1,26 +1,16 @@
 export const sidebar = {
-  '/en/': [
-    {
-      text: 'Guide',
-      items: [
-        { text: 'Button', link: '/en/' },
-      ],
-    },
-  ],
   '/': [
     {
-      text: '介紹',
+      text: 'Form',
       items: [
-        { text: '按钮', link: '/' },
+        { text: '基本使用', link: '/form/' },
       ],
     },
-  ],
-  '/guide/': [
     {
-      text: 'vdfvdf',
+      text: 'Table',
       items: [
-        {text: 'code edit', link: '/csdcds'}
+        { text:'基本使用', link:'/'},
       ]
     }
-  ]
+  ],
 };

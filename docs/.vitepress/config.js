@@ -6,17 +6,12 @@ import { sidebar } from './sidebar.js';
 import { resolve } from 'path';
 
 export default defineConfig({
-  lang: 'zh-CN',
+  lang: 'zh',
   lastUpdated: true,
   base: process.env.NODE_ENV === 'production' ? '/enhanced_element_plus' : '/',
   locales: {
     '/': {
-      lang: 'zh-CN',
-      title: 'enhanced_element_plus',
-      description: '',
-    },
-    '/en/': {
-      lang: 'en-US',
+      // lang: 'zh',
       title: 'enhanced_element_plus',
       description: '',
     },
@@ -26,15 +21,14 @@ export default defineConfig({
     localeLinks: {
       text: '',
       items: [
-        { text: '简体中文', link: '/' },
-        { text: 'English', link: '/en/' },
+        { text: '中文', link: '/' },
       ],
     },
     nav: [{ text: '指南', link: '/guide' }],
     sidebar,
     algolia: {},
     socialLinks: [
-      { icon: 'github', link: 'https://github.com//enhanced_element_plus' },
+      { icon: 'github', link: 'https://github.com/Yamapi0103/EnhancedElementPlus/' },
     ],
   },
   vue: {},
@@ -42,7 +36,7 @@ export default defineConfig({
     plugins: [genTemp(), genApiDoc()],
     resolve: {
       alias: {
-        'enhanced_element_plus': resolve('./src/'),
+        '@src': resolve('./src/'),
       },
     },
   },
