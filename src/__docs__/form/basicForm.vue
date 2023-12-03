@@ -13,9 +13,9 @@ export default {
     return {
       model: {
         name: '',
-        code: '',
-        parent: '',
-        remark: '',
+        sex: '',
+        hobby: [],
+        work: false,
         isDeleted: false,
         group: '',
       },
@@ -25,48 +25,69 @@ export default {
     schema() {
       return [
         {
-          label: '名稱',
-          prop: 'name',
-          rules: { required: true, message: '請輸入代碼名稱', trigger: 'blur' },
-          type: 'input',
-        },
-        {
           label: '姓名',
-          prop: 'select',
-          rules: { required: true, message: '請輸入群組名稱', trigger: 'blur' },
-          type: 'select',
-          props: {
-            options: [5, 4, 3, 2, 1],
-          },
-          style: 'width: 240px;',
-        },
-        {
-          label: '代碼編號',
-          prop: 'code',
-          rules: { required: true, message: '請輸入代碼編號', trigger: 'blur' },
+          prop: 'name',
+          rules: { required: true, message: '請輸入名稱', trigger: 'blur' },
           type: 'input',
         },
         {
-          label: '上層',
-          prop: 'parent',
+          label: '性別',
+          prop: 'sex',
+          rules: { required: true, message: '請選擇性別', trigger: 'blur' },
+          type: 'radio',
+          props: {
+            options: [
+              {
+                label: '男',
+                value: 'male',
+              },
+              {
+                label: '女',
+                value: 'female',
+              },
+            ],
+          },
+        },
+        {
+          label: '興趣',
+          prop: 'hobby',
           type: 'select',
           attrs: {
-            clearable: true,
-            filterable: true,
+            multiple: true,
           },
           props: {
-            options: [1, 2, 3, 4, 5],
+            options: [
+              {
+                label: '籃球',
+                value: 'basketball',
+              },
+              {
+                label: '桌球',
+                value: 'billiards',
+              },
+              {
+                label: '網球',
+                value: 'table tennise',
+              },
+              {
+                label: '羽球',
+                value: 'badminton',
+              },
+            ],
           },
         },
         {
-          label: '停用',
-          prop: 'isDeleted',
+          label: '在職中',
+          prop: 'work',
           type: 'checkbox',
         },
         {
           label: '備註',
           prop: 'remark',
           type: 'input',
+          attrs: {
+            type: 'textarea',
+          },
         },
       ];
     },

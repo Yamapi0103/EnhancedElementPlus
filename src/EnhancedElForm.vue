@@ -17,11 +17,9 @@
       :rules="config.rules"
       :label="config.label || ''"
       :prop="config.prop"
-      :class="
-        `clazz-${config.prop} ${
-          canEditing && !config.type ? 'curosr-pointer' : ''
-        }`
-      "
+      :class="`clazz-${config.prop} ${
+        canEditing && !config.type ? 'curosr-pointer' : ''
+      }`"
       @click="canEditing && clickFormItem(config.prop)"
     >
       <!-- slot 自定義列-->
@@ -49,6 +47,16 @@
             :label="typeof item === 'object' ? item.label : item"
           />
         </el-select>
+      </template>
+      <template v-else-if="config.type === 'radio'">
+        <el-radio-group v-model="model[config.prop]">
+          <el-radio
+            v-for="(item, index) in config.props.options"
+            :key="index"
+            :label="item.value"
+            >{{ item.label }}</el-radio
+          >
+        </el-radio-group>
       </template>
       <template v-else-if="config.type === 'date'">
         <el-date-picker
@@ -182,7 +190,7 @@ export default {
         if (!type) return config; // 本來就沒定義type表示純顯示
         if (!this.editingColumn.includes(prop)) {
           // 獨立處理number 非編輯模式下加上千分位 反之變回數字
-        
+
           return _.omit(config, 'type');
         } else {
           if (type === 'number' && typeof this.model[prop] === 'string') {
