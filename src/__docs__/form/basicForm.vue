@@ -16,8 +16,7 @@ export default {
         sex: '',
         hobby: [],
         work: false,
-        isDeleted: false,
-        group: '',
+        remark: '',
       },
     };
   },
