@@ -6,4 +6,3 @@
 如果在外層指定義好需要傳入的設定，code會顯得比較小包，且易於修改
 ElForm => enhancedElForm
 ElTable => EnhancedElForm
-
