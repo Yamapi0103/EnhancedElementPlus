@@ -1,14 +1,13 @@
 ---
 map:
-  path: /form
-realPath: src/__docs__/form/index.md
+  path: /table
 ---
 
 ## basic
 
 渲染效果如下
 
-<demo src="./basicForm.vue"
+<demo src="./basicTable.vue"
   title="Demo enhanced form"
   desc="示範傳入各種type 的form item">
 </demo>

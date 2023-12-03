@@ -1,6 +1,12 @@
 export const sidebar = {
   '/': [
     {
+      text: '前言',
+      items: [
+        { text: '為何要封裝', link: '/', }
+      ]
+    },
+    {
       text: 'Form',
       items: [
         { text: '基本使用', link: '/form/' },
@@ -9,7 +15,7 @@ export const sidebar = {
     {
       text: 'Table',
       items: [
-        { text:'基本使用', link:'/'},
+        { text:'基本使用', link:'/table/'},
       ]
     }
   ],

@@ -7,7 +7,7 @@ map:
 
 渲染效果如下
 
-<demo src="../components/basicForm.vue"
+<demo src="./basicForm.vue"
   title="Demo enhanced form"
   desc="示範傳入各種type 的form item">
 </demo>

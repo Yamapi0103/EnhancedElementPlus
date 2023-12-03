@@ -1,18 +1,15 @@
 <template>
-  <EnhancedElForm 
-  :model="model"
-  :schema="schema"
-  />
+  <EnhancedElForm :model="model" :schema="schema" />
 </template>
 
 <script>
-import {EnhancedElForm} from '@src'
+import { EnhancedElForm } from '@src';
 export default {
   name: 'basic form',
   components: {
-    EnhancedElForm
-  } ,
-  data(){
+    EnhancedElForm,
+  },
+  data() {
     return {
       model: {
         name: '',
@@ -21,8 +18,8 @@ export default {
         remark: '',
         isDeleted: false,
         group: '',
-      }, 
-    }
+      },
+    };
   },
   computed: {
     schema() {
@@ -39,7 +36,7 @@ export default {
           rules: { required: true, message: '請輸入群組名稱', trigger: 'blur' },
           type: 'select',
           props: {
-            options: [5,4,3,2,1],
+            options: [5, 4, 3, 2, 1],
           },
           style: 'width: 240px;',
         },
@@ -58,7 +55,7 @@ export default {
             filterable: true,
           },
           props: {
-            options: [1,2,3,4,5],
+            options: [1, 2, 3, 4, 5],
           },
         },
         {
@@ -72,7 +69,7 @@ export default {
           type: 'input',
         },
       ];
-    },  
-   }
-}
+    },
+  },
+};
 </script>
