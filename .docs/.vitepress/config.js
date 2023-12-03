@@ -24,7 +24,7 @@ export default defineConfig({
         { text: '中文', link: '/' },
       ],
     },
-    nav: [{ text: '指南', link: '/guide' }],
+    nav: [{ text: '指南', link: '/form/' }],
     sidebar,
     algolia: {},
     socialLinks: [
