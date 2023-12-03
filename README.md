@@ -1,3 +1,6 @@
+# demo page
+[demo](https://yamapi0103.github.io/enhanced_element_plus/)
+
 # 使用套件
 使用 [ruabick](https://github.com/dewfall123/ruabick#ruabick) 快速搭建
 
