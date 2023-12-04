@@ -58,7 +58,7 @@
           >
         </el-radio-group>
       </template>
-      <template v-else-if="config.type.includes('date')">
+      <template v-else-if="config.type?.includes('date')">
         <el-date-picker
           v-model="model[config.prop]"
           :type="config.type"
@@ -74,6 +74,7 @@
         :is="`el-${config.type}`"
         v-model="model[config.prop]"
         :disabled="handleDisabled(config.disabled)"
+        v-bind="config.attrs"
       >
       </component>
       <!-- config沒給type則純顯示label -->
@@ -105,9 +106,15 @@ export default {
   },
   data() {
     return {
-      editingColumn: [],
+      editingColumn: new Set([]),
       compositionStart: false,
     };
+  },
+  mounted() {
+    // 將form 提供的事件暴露到data上，供外部ref使用
+    const exposeMethods = ['validate', 'resetField', 'clearValidate'];
+    const ref = this.$refs['enhancedElForm'];
+    exposeMethods.forEach(item => (this[item] = ref[item]));
   },
   components: {
     LbRender: {
@@ -145,7 +152,7 @@ export default {
       const newSchema = this.schema.map(config => {
         const { prop, type } = config;
         if (!type) return config; // 本來就沒定義type表示純顯示
-        if (!this.editingColumn.includes(prop)) {
+        if (!this.editingColumn.has(prop)) {
           // 獨立處理number 非編輯模式下加上千分位 反之變回數字
 
           return _.omit(config, 'type');
@@ -165,15 +172,13 @@ export default {
       this.enterSearch();
     },
     clickFormItem(prop) {
-      if (this.editingColumn.indexOf(prop) > -1) return;
-      this.editingColumn.push(prop);
+      this.editingColumn.add(prop);
     },
     clearEditingColumn(prop) {
       if (!prop) {
-        this.editingColumn = [];
+        this.editingColumn.clear();
       } else {
-        let index = this.editingColumn.indexOf(prop);
-        this.editingColumn.splice(index, 1);
+        this.editingColumn.delete(prop);
       }
     },
     handleDisabled(disabled = false) {

@@ -1,6 +1,5 @@
 <template>
   <EnhancedElForm :model="model" :schema="schema" />
-  <div>model: {{ model }}</div>
 </template>
 
 <script>
