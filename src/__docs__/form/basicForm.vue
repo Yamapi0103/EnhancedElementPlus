@@ -17,6 +17,7 @@ export default {
         hobby: [],
         work: false,
         remark: '',
+        isOpen: false,
       },
     };
   },
@@ -79,6 +80,11 @@ export default {
           label: '在職中',
           prop: 'work',
           type: 'checkbox',
+        },
+        {
+          label: '履歷',
+          prop: 'isOpen',
+          type: 'switch',
         },
         {
           label: '備註',

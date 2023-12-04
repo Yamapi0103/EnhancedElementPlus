@@ -5,7 +5,7 @@ map:
 
 ## basic
 
-渲染element plus 不同表單組建的基本示例
+渲染element plus 不同表單組件的基本示例
 
 <demo src="./basicForm.vue"
   title="enhanced el-form"
