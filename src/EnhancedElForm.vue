@@ -58,58 +58,15 @@
           >
         </el-radio-group>
       </template>
-      <template v-else-if="config.type === 'date'">
+      <template v-else-if="config.type.includes('date')">
         <el-date-picker
           v-model="model[config.prop]"
+          :type="config.type"
           value-format="YYYY-MM-DD"
           :size="config.size ? config.size : 'large'"
-          :type="config.type"
           :placeholder="config.placeholder"
           :disabled="handleDisabled(config.disabled)"
-        />
-      </template>
-      <template v-else-if="config.type === 'daterange'">
-        <el-date-picker
-          v-model="model[config.prop]"
-          value-format="YYYY-MM-DD"
-          :size="config.size ? config.size : 'large'"
-          :type="config.type"
-          :placeholder="config.placeholder"
-          range-separator="到"
-          start-placeholder="開始日期"
-          end-placeholder="結束日期"
-          :disabled="handleDisabled(config.disabled)"
-        />
-      </template>
-      <template v-else-if="config.type === 'datetimerange'">
-        <el-date-picker
-          v-model="model[config.prop]"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :size="config.size ? config.size : 'large'"
-          :type="config.type"
-          :placeholder="config.placeholder"
-          range-separator="到"
-          start-placeholder="開始時間"
-          end-placeholder="結束時間"
-          :disabled="handleDisabled(config.disabled)"
-        />
-      </template>
-      <template v-else-if="config.type === 'input'">
-        <el-input
-          v-bind="config.attrs ? config.attrs : {}"
-          v-model="model[config.prop]"
-          :size="config.size ? config.size : 'large'"
-          :disabled="handleDisabled(config.disabled)"
-          :placeholder="config.placeholder"
-        />
-      </template>
-      <template v-else-if="config.type === 'number'">
-        <el-input-number
-          v-model="model[config.prop]"
-          :size="config.size ? config.size : 'large'"
-          :disabled="handleDisabled(config.disabled)"
-          :min="config.min"
-          :max="config.max"
+          v-bind="config.attrs"
         />
       </template>
       <component
