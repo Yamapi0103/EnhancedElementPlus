@@ -4,9 +4,9 @@ map:
 realPath: src/__docs__/form/index.md
 ---
 
-## basic
+## 基本使用
 
-渲染element plus 不同表單組件的基本示例
+渲染不同種類的 el-form-item
 
 <demo
   src="../components/form/basicForm.vue"

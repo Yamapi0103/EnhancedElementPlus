@@ -11,7 +11,7 @@ export const sidebar = {
       items: [
         { text: '基本使用', link: '/form/' },
         { text: 'datepicker', link: '/form/datepicker' },
-        { text: 'editable', link: '/form/editable' },
+        { text: 'editable form', link: '/form/editable' },
       ],
     },
     {

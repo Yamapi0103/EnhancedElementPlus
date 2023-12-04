@@ -22,6 +22,7 @@ export default {
     schema() {
       return [
         {
+          label: 'Date',
           type: 'date',
           prop: 'date',
           placeholder: '請選擇日期',
@@ -30,10 +31,12 @@ export default {
           },
         },
         {
+          label: 'Date range',
           type: 'daterange',
           prop: 'dateRange',
         },
         {
+          label: 'Datetime range',
           type: 'datetimerange',
           prop: 'dateTimeRange',
           attrs: {
