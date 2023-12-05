@@ -3,7 +3,7 @@ map:
   path: /form
 ---
 
-## 基本使用
+## 基本示例
 
 渲染不同種類的 el-form-item
 
@@ -14,4 +14,3 @@ map:
 </demo>
 
 <API src="../components/EnhancedElForm.vue" lang="zh"></API>
-

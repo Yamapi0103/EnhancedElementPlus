@@ -4,7 +4,7 @@ map:
 realPath: src/__docs__/form/autoInitial.md
 ---
 
-## 自動初始化 model data
+## 自動初始化表單資料
 
 定義 defaultValue於每一項schema裡，自動初始化 model data綁好key
 想像假如可以動態切換多個表單，每個表單須填的的key都不一樣

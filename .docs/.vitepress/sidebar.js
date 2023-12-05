@@ -7,7 +7,7 @@ export const sidebar = {
     {
       text: 'Form',
       items: [
-        { text: '基本使用', link: '/form/' },
+        { text: 'basic', link: '/form/' },
         { text: 'datepicker', link: '/form/datepicker' },
         { text: 'editable form', link: '/form/editable' },
         { text: 'auto initial data', link: '/form/autoInitial' },
