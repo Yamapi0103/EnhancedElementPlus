@@ -1,6 +1,6 @@
 <template>
   <el-form
-    ref="enhancedElForm"
+    ref="enhancedElFormRef"
     class="enhanced-el-form"
     :inline="isInline"
     :model="model"
@@ -84,109 +84,98 @@
     </el-form-item>
   </el-form>
 </template>
-<script>
+<script setup>
+import { ref, defineEmits, defineExpose, reactive, computed, watch } from 'vue';
 import _ from 'lodash';
-export default {
-  name: 'enhancedElForm',
-  props: {
-    model: Object,
-    schema: Array,
-    labelWidth: String,
-    canEditing: Boolean,
-    isInline: { type: Boolean },
-    enterSearch: Function,
-    labelPosition: {
-      type: String,
-      default: 'right',
-      validator: value => ['right', 'left', 'top'].includes(value),
-    },
-    disabled: {
-      type: Boolean,
-    },
-  },
-  data() {
-    return {
-      editingColumn: new Set([]),
-      compositionStart: false,
-    };
-  },
-  mounted() {
-    // 將form 提供的事件暴露到data上，供外部ref使用
-    const exposeMethods = ['validate', 'resetField', 'clearValidate'];
-    const ref = this.$refs['enhancedElForm'];
-    exposeMethods.forEach(item => (this[item] = ref[item]));
-  },
-  components: {
-    LbRender: {
-      name: 'LbRender',
-      functional: true,
-      props: {
-        scope: Object,
-        render: Function,
-      },
-      render: (h, ctx) => {
-        return ctx.props.render ? ctx.props.render(h, ctx.props.scope) : '';
-      },
-    },
-  },
-  watch: {
-    schema: {
-      handler(list) {
-        // model 若帶著入空物件，可依據schema defaultValue給預設值
-        if (!list) return;
-        for (let i = 0; i < list.length; i++) {
-          const formitem = list[i];
-          const { prop, defaultValue = '' } = formitem;
-          if (!(prop in this.model)) {
-            this.model[prop] = defaultValue;
-          }
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
-  computed: {
-    processedSchema() {
-      if (!this.canEditing) return this.schema;
-      const newSchema = this.schema.map(config => {
-        const { prop, type } = config;
-        if (!type) return config; // 本來就沒定義type表示純顯示
-        if (!this.editingColumn.has(prop)) {
-          // 獨立處理number 非編輯模式下加上千分位 反之變回數字
 
-          return _.omit(config, 'type');
-        } else {
-          if (type === 'number' && typeof this.model[prop] === 'string') {
-            this.model[prop] = parseInt(this.model[prop].replace(/,/g, ''), 10);
-          }
-        }
-        return config;
-      });
-      return newSchema;
-    },
+const props = defineProps({
+  model: Object,
+  schema: Array,
+  labelWidth: String,
+  canEditing: Boolean,
+  isInline: { type: Boolean },
+  enterSearch: Function,
+  labelPosition: {
+    type: String,
+    default: 'right',
+    validator: value => ['right', 'left', 'top'].includes(value),
   },
-  methods: {
-    formSubmit() {
-      if (this.compositionStart) return;
-      this.enterSearch();
-    },
-    clickFormItem(prop) {
-      this.editingColumn.add(prop);
-    },
-    clearEditingColumn(prop) {
-      if (!prop) {
-        this.editingColumn.clear();
-      } else {
-        this.editingColumn.delete(prop);
+  disabled: Boolean,
+});
+const emit = defineEmits(['update:model']);
+const {
+  labelWidth,
+  canEditing,
+  isInline,
+  enterSearch,
+  labelPosition,
+  disabled,
+} = props;
+
+const editingColumn = reactive(new Set([]));
+const compositionStart = ref(false);
+const enhancedElFormRef = ref(null);
+const LbRender = props => (props.render ? props.render(props.scope) : '');
+
+watch(
+  () => props.schema,
+  list => {
+    // model 若帶著入空物件，可依據schema defaultValue給預設值
+    if (!list) return;
+    for (let i = 0; i < list.length; i++) {
+      const formitem = list[i];
+      const { prop, defaultValue = '' } = formitem;
+      if (!props.model.hasOwnProperty(prop)) {
+        props.model[prop] = defaultValue;
       }
-    },
-    handleDisabled(disabled = false) {
-      return typeof disabled === 'function' ? disabled() : disabled;
-    },
+    }
   },
+  {
+    immediate: true,
+  },
+);
+
+const processedSchema = computed(() => {
+  if (!canEditing) return props.schema;
+  const newSchema = props.schema.map(config => {
+    const { prop, type } = config;
+    if (!type) return config; // 本來就沒定義type表示純顯示
+    if (!editingColumn.has(prop)) {
+      // 獨立處理number 非編輯模式下加上千分位 反之變回數字
+
+      return _.omit(config, 'type');
+    }
+    return config;
+  });
+  return newSchema;
+});
+
+const formSubmit = () => {
+  if (compositionStart) return;
+  enterSearch();
 };
+const clickFormItem = prop => {
+  editingColumn.add(prop);
+};
+const clearEditingColumn = prop => {
+  if (!prop) {
+    editingColumn.clear();
+  } else {
+    editingColumn.delete(prop);
+  }
+};
+
+const handleDisabled = (disabled = false) => {
+  return typeof disabled === 'function' ? disabled() : disabled;
+};
+
+defineExpose({
+  enhancedElFormRef,
+  editingColumn,
+  clearEditingColumn,
+});
 </script>
+
 <style lang="scss" scoped>
 :deep(.el-form-item) {
   &.curosr-pointer {

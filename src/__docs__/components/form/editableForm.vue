@@ -71,7 +71,7 @@ const schema = computed(() => [
 ]);
 
 const submit = () => {
-  formRef.value.validate((isPass, errorField) => {
+  formRef.value.enhancedElFormRef.validate((isPass, errorField) => {
     if (isPass) {
       ElMessage({
         message: '送出成功',
