@@ -6,14 +6,14 @@
       :name="item.name"
       :label="item.label"
     >
-      <EnhancedElForm :model="model" :schema="schema(activeTab)" />
+      <EnhancedElForm :model="model" :schema="schema" />
     </el-tab-pane>
   </el-tabs>
   <div>model: {{ model }}</div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { EnhancedElForm } from '@src';
 
 const model = ref({});
@@ -105,13 +105,13 @@ const schemaArray = [
     },
   },
 ];
-const schema = (currentTab: string) => {
+const schema = computed(() => {
   const schemaMap = {
     first: schemaArray.slice(0, 2), // pick name,sex
     second: schemaArray.slice(1), // pick sex and the rest
   };
-  return schemaMap[currentTab];
-};
+  return schemaMap[activeTab.value];
+});
 
 watch(activeTab, () => {
   model.value = {};
