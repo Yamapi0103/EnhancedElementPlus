@@ -4,7 +4,7 @@ map:
 realPath: src/__docs__/form/index.md
 ---
 
-## 基本示例
+## 基本範例
 
 渲染不同種類的 el-form-item
 

@@ -7,10 +7,9 @@ export const sidebar = {
     {
       text: 'Form',
       items: [
-        { text: 'basic', link: '/form/' },
-        { text: 'datepicker', link: '/form/datepicker' },
-        { text: 'editable form', link: '/form/editable' },
-        { text: 'auto initial data', link: '/form/autoInitial' },
+        { text: '基本表單', link: '/form/' },
+        { text: '編輯/檢視表單', link: '/form/editable' },
+        { text: '自動初始化表單資料', link: '/form/autoInitial' },
       ],
     },
     {

@@ -13,6 +13,8 @@ const model = ref({
   work: false,
   remark: '',
   isOpen: false,
+  birthDate: '',
+  experience: ['', ''],
 });
 
 const schema = computed(() => [
@@ -84,6 +86,28 @@ const schema = computed(() => [
     type: 'input',
     attrs: {
       type: 'textarea',
+    },
+  },
+  {
+    label: '生日',
+    type: 'datepicker',
+    prop: 'birthDate',
+    attrs: {
+      placeholder: '請選擇日期',
+      type: 'date',
+      format: 'YYYY/MM/DD',
+    },
+  },
+  {
+    label: '年資',
+    type: 'datepicker',
+    prop: 'experience',
+    attrs: {
+      type: 'datetimerange',
+      rangeSeparator: '到',
+      startPlaceholder: '開始日期',
+      endPlaceholder: '結束日期',
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
     },
   },
 ]);

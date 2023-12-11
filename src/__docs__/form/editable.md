@@ -3,7 +3,7 @@ map:
   path: /form
 ---
 
-## editable form
+## 編輯/檢視切換表單
 
 點擊表單區進行編輯模式
 
