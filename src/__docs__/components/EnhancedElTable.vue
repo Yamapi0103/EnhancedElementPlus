@@ -1,6 +1,6 @@
 <template>
   <el-table
-    ref="elTable"
+    ref="elTableRef"
     class="enhanced-el-table"
     v-loading="loading"
     :data="data"
@@ -88,81 +88,47 @@
     </template>
   </el-table>
 </template>
-<script>
-export default {
-  name: 'EnhancedElTable',
-  props: {
-    columns: {
-      type: Array,
-      default: () => [],
-    },
-    data: {
-      type: Array,
-      default: () => [],
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    stripe: {
-      type: Boolean,
-      default: false,
-    },
-    showIndex: {
-      type: Boolean,
-      default: false,
-    },
-    border: {
-      type: Boolean,
-      default: true,
-    },
-    selectable: {
-      // 控制選擇框 disabled  狀態, 預設返回 true
-      type: Function,
-      default: () => true,
-    },
-    height: {
-      type: Number,
-    },
-    rowClassName: {
-      type: Function,
-      default: () => '',
-    },
-    defaultExpandAll: {
-      type: Boolean,
-      default: false,
-    },
-    spanMethod: {
-      type: Function,
-      default: () => '',
-    },
-  },
-  components: {
-    LbRender: {
-      name: 'LbRender',
-      props: {
-        scope: Object,
-        render: Function,
-      },
-      render: props => {
-        return props.render ? props.render(props.scope) : '';
-      },
-    },
-  },
-  methods: {
-    clearSelection() {
-      this.$refs.elTable.clearSelection();
-    },
-    handleColumnVisible(show = true) {
-      return typeof show === 'function' ? show() : show;
-    },
-    handleSelectable(enable, row) {
-      // 讓外部selectable function可接參數row
-      return typeof enable === 'function' ? enable(row) : () => true;
-    },
-    headerClassName({ column }) {
-      return 'column-' + column.property;
-    },
-  },
+<script setup lang="ts">
+import { ref, VNode } from 'vue';
+
+interface LbRenderProps {
+  scope: any;
+  render: (scope: any) => VNode;
+}
+
+defineProps<{
+  columns: Array<any>;
+  data: Array<any>;
+  loading?: boolean;
+  stripe?: boolean;
+  showIndex?: boolean;
+  border?: boolean;
+  height?: number | string;
+  rowClassName?: ({ row, column, rowIndex, columnIndex }) => string;
+  defaultExpandAll?: boolean;
+  spanMethod?: ({ row, column, rowIndex, columnIndex }) => {
+    rowspan: number;
+    colspan: number;
+  };
+}>();
+
+const elTableRef = ref(null);
+const LbRender = (ctx: LbRenderProps) =>
+  ctx.render ? ctx.render(ctx.scope) : '';
+
+const handleColumnVisible = (show: Function) => {
+  return typeof show === 'function' ? show?.() : true;
 };
+
+const handleSelectable = (enable: Function, row: any) => {
+  // 讓外部selectable function可接參數row
+  return typeof enable === 'function' ? enable?.(row) : () => true;
+};
+const headerClassName = ({ column }) => {
+  return 'column-' + column.property;
+};
+
+defineExpose({
+  elTableRef,
+});
 </script>

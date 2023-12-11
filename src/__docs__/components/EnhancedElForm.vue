@@ -82,6 +82,10 @@ import { OptionType } from 'element-plus/es/components/select-v2/src/select.type
 import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
 
+interface LbRenderProps {
+  render: (model: ModelProps) => VNode;
+}
+
 interface ModelProps {
   [key: string]: any;
 }
@@ -130,9 +134,6 @@ const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
 const enhancedElFormRef = ref(null);
 
-interface LbRenderProps {
-  render: (model: ModelProps) => VNode;
-}
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(props.model) : '';
 
