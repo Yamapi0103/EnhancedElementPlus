@@ -3,7 +3,7 @@
   <el-button @click="submit">送出</el-button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import { EnhancedElForm } from '@src';

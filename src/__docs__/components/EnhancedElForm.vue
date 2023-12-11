@@ -28,16 +28,12 @@
       </template>
       <!-- render VNode -->
       <template v-else-if="typeof config.render === 'function'">
-        <LbRender :scope="model" :render="config.render" />
+        <LbRender :render="config.render" />
       </template>
       <template v-else-if="config.type === 'select'">
         <el-select
           v-bind="config.attrs ? config.attrs : {}"
-          :style="config.style"
-          :size="config.size ? config.size : 'large'"
           v-model="model[config.prop]"
-          :disabled="handleDisabled(config.disabled)"
-          :placeholder="config.placeholder"
           @change="config.change ? config.change($event, model) : () => {}"
         >
           <el-option
@@ -58,14 +54,10 @@
           >
         </el-radio-group>
       </template>
-      <template v-else-if="config.type?.includes('date')">
+      <template v-else-if="config.type === 'datepicker'">
         <el-date-picker
           v-model="model[config.prop]"
-          :type="config.type"
           value-format="YYYY-MM-DD"
-          :size="config.size ? config.size : 'large'"
-          :placeholder="config.placeholder"
-          :disabled="handleDisabled(config.disabled)"
           v-bind="config.attrs"
         />
       </template>
@@ -73,7 +65,6 @@
         v-else-if="config.type"
         :is="`el-${config.type}`"
         v-model="model[config.prop]"
-        :disabled="handleDisabled(config.disabled)"
         v-bind="config.attrs"
       >
       </component>
@@ -84,25 +75,48 @@
     </el-form-item>
   </el-form>
 </template>
-<script setup>
-import { ref, defineEmits, defineExpose, reactive, computed, watch } from 'vue';
+<script setup lang="ts">
+import { ref, defineExpose, reactive, computed, watch, VNode } from 'vue';
 import _ from 'lodash';
+import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
+import { FormItemRule } from 'element-plus';
+import { Arrayable } from 'element-plus/es/utils';
 
-const props = defineProps({
-  model: Object,
-  schema: Array,
-  labelWidth: String,
-  canEditing: Boolean,
-  isInline: { type: Boolean },
-  enterSearch: Function,
-  labelPosition: {
-    type: String,
-    default: 'right',
-    validator: value => ['right', 'left', 'top'].includes(value),
+interface ModelProps {
+  [key: string]: any;
+}
+interface SchemaProps {
+  type?: 'slot' | 'select' | 'input' | 'checkbox' | 'radio' | 'datepicker';
+  label?: string;
+  prop: string;
+  attrs: {
+    [key: string]: string;
+  };
+  rules?: Arrayable<FormItemRule>;
+  render: (scope: ModelProps) => VNode;
+  change?: (value: any, model: ModelProps) => void;
+  props: {
+    options: OptionType | string[];
+  };
+  defaultValue?: any;
+}
+
+const props = withDefaults(
+  defineProps<{
+    model: ModelProps;
+    schema: SchemaProps[];
+    labelWidth?: string;
+    canEditing?: boolean;
+    isInline?: boolean;
+    enterSearch?: () => void;
+    labelPosition?: 'left' | 'right' | 'top';
+    disabled?: boolean;
+  }>(),
+  {
+    labelPosition: 'right',
   },
-  disabled: Boolean,
-});
-const emit = defineEmits(['update:model']);
+);
+
 const {
   labelWidth,
   canEditing,
@@ -112,10 +126,15 @@ const {
   disabled,
 } = props;
 
-const editingColumn = reactive(new Set([]));
+const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
 const enhancedElFormRef = ref(null);
-const LbRender = props => (props.render ? props.render(props.scope) : '');
+
+interface LbRenderProps {
+  render: (model: ModelProps) => VNode;
+}
+const LbRender = (lbProps: LbRenderProps) =>
+  lbProps.render ? lbProps.render(props.model) : '';
 
 watch(
   () => props.schema,
@@ -135,7 +154,7 @@ watch(
   },
 );
 
-const processedSchema = computed(() => {
+const processedSchema = computed<SchemaProps[]>(() => {
   if (!canEditing) return props.schema;
   const newSchema = props.schema.map(config => {
     const { prop, type } = config;
@@ -152,7 +171,7 @@ const processedSchema = computed(() => {
 
 const formSubmit = () => {
   if (compositionStart) return;
-  enterSearch();
+  enterSearch?.();
 };
 const clickFormItem = prop => {
   editingColumn.add(prop);
@@ -163,10 +182,6 @@ const clearEditingColumn = prop => {
   } else {
     editingColumn.delete(prop);
   }
-};
-
-const handleDisabled = (disabled = false) => {
-  return typeof disabled === 'function' ? disabled() : disabled;
 };
 
 defineExpose({

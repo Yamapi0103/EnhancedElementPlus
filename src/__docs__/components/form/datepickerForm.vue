@@ -2,7 +2,7 @@
   <EnhancedElForm :model="model" :schema="schema" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { EnhancedElForm } from '@src';
 
@@ -15,23 +15,28 @@ const model = ref({
 const schema = computed(() => [
   {
     label: 'Date',
-    type: 'date',
+    type: 'datepicker',
     prop: 'date',
-    placeholder: '請選擇日期',
     attrs: {
+      placeholder: '請選擇日期',
+      type: 'date',
       format: 'YYYY/MM/DD',
     },
   },
   {
     label: 'Date range',
-    type: 'daterange',
+    type: 'datepicker',
     prop: 'dateRange',
+    attrs: {
+      type: 'daterange',
+    },
   },
   {
     label: 'Datetime range',
-    type: 'datetimerange',
+    type: 'datepicker',
     prop: 'dateTimeRange',
     attrs: {
+      type: 'datetimerange',
       rangeSeparator: '到',
       startPlaceholder: '開始日期',
       endPlaceholder: '結束日期',
