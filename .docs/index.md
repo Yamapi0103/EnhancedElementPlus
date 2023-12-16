@@ -6,4 +6,4 @@ realPath: src/__docs__/index.md
 
 ## 前言
 
-以el-table和el-form 進行二此封裝，於組件外定義好需要傳入的設定檔，減少代碼量。
+封裝Element-plus 的 ElForm 和 ElTable，設定成json可配置項方便復用。

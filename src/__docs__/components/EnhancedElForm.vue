@@ -133,7 +133,7 @@ const {
 
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
-const enhancedElFormRef = ref(null);
+const enhancedElFormRef = ref<HTMLDivElement | null>(null);
 
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(props.model) : '';

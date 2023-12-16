@@ -8,7 +8,7 @@ import { ref, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import { EnhancedElForm } from '@src';
 
-const formRef = ref(null);
+const formRef = ref<InstanceType<typeof EnhancedElForm>>(null);
 const model = ref({
   name: 'Joshua Yeh',
   phone: '0900123456',

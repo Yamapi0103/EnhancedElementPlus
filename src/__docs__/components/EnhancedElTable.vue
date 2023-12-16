@@ -113,7 +113,7 @@ defineProps<{
   };
 }>();
 
-const elTableRef = ref(null);
+const elTableRef = ref<HTMLDivElement | null>(null);
 const LbRender = (ctx: LbRenderProps) =>
   ctx.render ? ctx.render(ctx.scope) : '';
 
