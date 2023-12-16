@@ -81,6 +81,7 @@ import _ from 'lodash';
 import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
 import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
+import { ElForm } from 'element-plus';
 
 interface LbRenderProps {
   render: (model: ModelProps) => VNode;

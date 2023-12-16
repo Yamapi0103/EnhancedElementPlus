@@ -89,6 +89,7 @@
   </el-table>
 </template>
 <script setup lang="ts">
+import { ElTable } from 'element-plus';
 import { ref, VNode } from 'vue';
 
 interface LbRenderProps {
@@ -104,7 +105,7 @@ defineProps<{
   showIndex?: boolean;
   border?: boolean;
   height?: number | string;
-  rowClassName?: ({ row, column, rowIndex, columnIndex }) => string;
+  rowClassName?: ({ row, rowIndex }) => string;
   defaultExpandAll?: boolean;
   spanMethod?: ({ row, column, rowIndex, columnIndex }) => {
     rowspan: number;
