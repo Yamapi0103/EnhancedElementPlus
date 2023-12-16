@@ -1,5 +1,19 @@
 <template>
-  <EnhancedElForm ref="formRef" :model="model" :schema="schema" canEditing />
+  <EnhancedElForm ref="formRef" :model="model" :schema="schema" canEditing>
+    <template #form-other="{ isEditing }">
+      <el-alert
+        v-if="!isEditing && !model.other"
+        :class="{ 'cursor-pointer': !isEditing }"
+        title="slot 表單須自行實作編輯/檢視"
+        type="info"
+        :closable="false"
+      />
+      <el-input v-if="isEditing" type="textarea" v-model="model.other" />
+      <div v-else class="cursor-pointer">
+        {{ model.other }}
+      </div>
+    </template>
+  </EnhancedElForm>
   <el-button @click="submit">送出</el-button>
 </template>
 
@@ -14,6 +28,7 @@ const model = ref({
   phone: '0900123456',
   email: '',
   password: '',
+  other: '',
 });
 
 const schema = computed(() => [
@@ -68,6 +83,11 @@ const schema = computed(() => [
       showPassword: true,
     },
   },
+  {
+    label: '其他',
+    prop: 'other',
+    type: 'slot',
+  },
 ]);
 
 const submit = () => {
@@ -86,3 +106,8 @@ const submit = () => {
   });
 };
 </script>
+<style>
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

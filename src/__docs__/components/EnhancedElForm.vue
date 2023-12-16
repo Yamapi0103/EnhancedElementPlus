@@ -7,7 +7,7 @@
     :label-width="labelWidth"
     :disabled="disabled"
     :label-position="labelPosition"
-    @keyup.enter="typeof enterSearch === 'function' ? formSubmit() : () => {}"
+    @keyup.enter="enterSearch"
     @compositionstart="compositionStart = true"
     @compositionend="compositionStart = false"
   >
@@ -24,7 +24,11 @@
     >
       <!-- slot 自定義列-->
       <template v-if="config.type === 'slot'">
-        <slot :name="`form-${config.prop}`" :config="config" :model="model" />
+        <slot
+          :name="`form-${config.prop}`"
+          :config="config"
+          :isEditing="editingColumn.has(config.prop)"
+        />
       </template>
       <!-- render VNode -->
       <template v-else-if="typeof config.render === 'function'">
@@ -50,8 +54,9 @@
             v-for="(item, index) in config.props.options"
             :key="index"
             :label="item.value"
-            >{{ item.label }}</el-radio
           >
+            {{ item.label }}
+          </el-radio>
         </el-radio-group>
       </template>
       <template v-else-if="config.type === 'datepicker'">
@@ -66,8 +71,7 @@
         :is="`el-${config.type}`"
         v-model="model[config.prop]"
         v-bind="config.attrs"
-      >
-      </component>
+      />
       <!-- config沒給type則純顯示label -->
       <template v-else>
         {{ model[config.prop] }}
@@ -119,6 +123,7 @@ const props = withDefaults(
   }>(),
   {
     labelPosition: 'right',
+    enterSearch: () => {},
   },
 );
 
@@ -163,8 +168,7 @@ const processedSchema = computed<SchemaProps[]>(() => {
     if (!type) return config; // 本來就沒定義type表示純顯示
     if (!editingColumn.has(prop)) {
       // 獨立處理number 非編輯模式下加上千分位 反之變回數字
-
-      return _.omit(config, 'type');
+      if (config.type !== 'slot') return _.omit(config, 'type');
     }
     return config;
   });
