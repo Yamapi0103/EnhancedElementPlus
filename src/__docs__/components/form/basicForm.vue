@@ -112,7 +112,7 @@ const schema = computed(() => [
   {
     label: '備註',
     prop: 'remark',
-    type: 'slot',
+    type: 'input',
     attrs: {
       type: 'textarea',
     },
