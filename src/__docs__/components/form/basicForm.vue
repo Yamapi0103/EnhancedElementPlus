@@ -1,9 +1,18 @@
 <template>
-  <EnhancedElForm :model="model" :schema="schema" />
+  <div class="basic-form">
+    <EnhancedElForm class="my-form" :model="model" :schema="schema">
+      <template #form-submit>
+        <el-button class="submit" type="primary" @click="submit">
+          提交表單
+        </el-button>
+      </template>
+    </EnhancedElForm>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { ElMessage } from 'element-plus';
 import { EnhancedElForm } from '@src';
 
 const model = ref({
@@ -21,13 +30,11 @@ const schema = computed(() => [
   {
     label: '姓名',
     prop: 'name',
-    rules: { required: true, message: '請輸入名稱', trigger: 'blur' },
     type: 'input',
   },
   {
     label: '性別',
     prop: 'sex',
-    rules: { required: true, message: '請選擇性別', trigger: 'blur' },
     type: 'radio',
     props: {
       options: [
@@ -81,14 +88,6 @@ const schema = computed(() => [
     type: 'switch',
   },
   {
-    label: '備註',
-    prop: 'remark',
-    type: 'input',
-    attrs: {
-      type: 'textarea',
-    },
-  },
-  {
     label: '生日',
     type: 'datepicker',
     prop: 'birthDate',
@@ -110,5 +109,35 @@ const schema = computed(() => [
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
     },
   },
+  {
+    label: '備註',
+    prop: 'remark',
+    type: 'slot',
+    attrs: {
+      type: 'textarea',
+    },
+  },
+  {
+    type: 'slot',
+    prop: 'submit',
+  },
 ]);
+
+const submit = () => {
+  ElMessage({
+    message: '送出成功',
+    type: 'success',
+  });
+};
 </script>
+
+<style lang="scss" scoped>
+.basic-form {
+  .clazz-submit {
+    .el-form-item__content {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+}
+</style>
