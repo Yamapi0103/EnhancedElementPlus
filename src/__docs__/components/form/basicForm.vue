@@ -133,7 +133,7 @@ const submit = () => {
 
 <style lang="scss" scoped>
 .basic-form {
-  .clazz-submit {
+  :deep(.clazz-submit) {
     .el-form-item__content {
       display: flex;
       flex-direction: row-reverse;
