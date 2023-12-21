@@ -115,7 +115,7 @@ const props = withDefaults(
   defineProps<{
     model: ModelProps;
     schema: SchemaProps[];
-    labelWidth?: string;
+    labelWidth?: string | number;
     canEditing?: boolean;
     isInline?: boolean;
     enterSearch?: () => void;
@@ -124,8 +124,10 @@ const props = withDefaults(
     alwaysEditableColumns?: string[];
   }>(),
   {
+    labelWidth: '',
     labelPosition: 'right',
     enterSearch: () => {},
+    alwaysEditableColumns: () => [],
   },
 );
 
@@ -136,7 +138,7 @@ const {
   enterSearch,
   labelPosition,
   disabled,
-  alwaysEditableColumns = [],
+  alwaysEditableColumns,
 } = props;
 
 const editingColumn = reactive(new Set());
