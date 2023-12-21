@@ -97,6 +97,7 @@ const submit = () => {
         message: '送出成功',
         type: 'success',
       });
+      formRef.value.clearEditingColumn();
       return;
     }
     const errKeys = Object.keys(errorField);

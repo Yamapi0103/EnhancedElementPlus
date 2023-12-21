@@ -120,6 +120,7 @@ const props = withDefaults(
     enterSearch?: () => void;
     labelPosition?: 'left' | 'right' | 'top';
     disabled?: boolean;
+    alwaysEditableColumns?: string[];
   }>(),
   {
     labelPosition: 'right',
@@ -134,6 +135,7 @@ const {
   enterSearch,
   labelPosition,
   disabled,
+  alwaysEditableColumns = [],
 } = props;
 
 const editingColumn = reactive(new Set());
@@ -142,6 +144,8 @@ const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
 
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(props.model) : '';
+
+alwaysEditableColumns.forEach(prop => editingColumn.add(prop));
 
 watch(
   () => props.schema,
@@ -185,6 +189,7 @@ const clickFormItem = prop => {
 const clearEditingColumn = prop => {
   if (!prop) {
     editingColumn.clear();
+    alwaysEditableColumns.forEach(column => editingColumn.add(column));
   } else {
     editingColumn.delete(prop);
   }
@@ -196,8 +201,7 @@ const validate = (...args) => enhancedElFormRef.value?.validate(...args);
 const resetFields = (...args) => enhancedElFormRef.value?.resetFields(...args);
 const validateField = (...args) =>
   enhancedElFormRef.value?.validateField(...args);
-const scrollToField = (prop) =>
-  enhancedElFormRef.value?.scrollToField(prop);
+const scrollToField = prop => enhancedElFormRef.value?.scrollToField(prop);
 const clearValidate = (...args) =>
   enhancedElFormRef.value?.clearValidate(...args);
 
