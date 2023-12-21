@@ -126,7 +126,6 @@ const props = withDefaults(
   {
     labelWidth: '',
     labelPosition: 'right',
-    enterSearch: () => {},
     alwaysEditableColumns: () => [],
   },
 );
