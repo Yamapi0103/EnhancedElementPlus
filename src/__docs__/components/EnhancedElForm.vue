@@ -7,7 +7,7 @@
     :label-width="labelWidth"
     :disabled="disabled"
     :label-position="labelPosition"
-    @keyup.enter="enterSearch"
+    @keyup.enter="typeof enterSearch === 'function' ? formSubmit() : () => {}"
     @compositionstart="compositionStart = true"
     @compositionend="compositionStart = false"
   >
