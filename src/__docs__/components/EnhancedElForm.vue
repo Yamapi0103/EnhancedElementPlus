@@ -74,7 +74,7 @@
       />
       <!-- config沒給type則純顯示label -->
       <template v-else>
-        {{ model[config.prop] }}
+        {{ config.formater?.(model[config.prop]) || model[config.prop] }}
       </template>
     </el-form-item>
   </el-form>
@@ -108,6 +108,7 @@ interface SchemaProps {
     options: OptionType | string[];
   };
   defaultValue?: any;
+  formater?: (value: any) => string;
 }
 
 const props = withDefaults(
