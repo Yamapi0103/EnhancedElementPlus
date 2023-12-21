@@ -138,7 +138,7 @@ const {
 
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
-const enhancedElFormRef = ref<HTMLDivElement | null>(null);
+const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
 
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(props.model) : '';
@@ -190,10 +190,26 @@ const clearEditingColumn = prop => {
   }
 };
 
+if (enhancedElFormRef.value) {
+}
+const validate = (...args) => enhancedElFormRef.value?.validate(...args);
+const resetFields = (...args) => enhancedElFormRef.value?.resetFields(...args);
+const validateField = (...args) =>
+  enhancedElFormRef.value?.validateField(...args);
+const scrollToField = (prop) =>
+  enhancedElFormRef.value?.scrollToField(prop);
+const clearValidate = (...args) =>
+  enhancedElFormRef.value?.clearValidate(...args);
+
 defineExpose({
   enhancedElFormRef,
   editingColumn,
   clearEditingColumn,
+  validate,
+  resetFields,
+  validateField,
+  scrollToField,
+  clearValidate,
 });
 </script>
 
