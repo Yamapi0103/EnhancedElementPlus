@@ -85,7 +85,7 @@ import _ from 'lodash';
 import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
 import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
-import { ElForm } from 'element-plus';
+import { ElForm, FormItemProp } from 'element-plus';
 
 interface LbRenderProps {
   render: (model: ModelProps) => VNode;
@@ -199,12 +199,14 @@ const clearEditingColumn = prop => {
 
 if (enhancedElFormRef.value) {
 }
-const validate = (...args) => enhancedElFormRef.value?.validate(...args);
-const resetFields = (...args) => enhancedElFormRef.value?.resetFields(...args);
-const validateField = (...args) =>
+const validate = (...args: any) => enhancedElFormRef.value?.validate(...args);
+const resetFields = (...args: any) =>
+  enhancedElFormRef.value?.resetFields(...args);
+const validateField = (...args: any) =>
   enhancedElFormRef.value?.validateField(...args);
-const scrollToField = prop => enhancedElFormRef.value?.scrollToField(prop);
-const clearValidate = (...args) =>
+const scrollToField = (prop: FormItemProp) =>
+  enhancedElFormRef.value?.scrollToField(prop);
+const clearValidate = (...args: any) =>
   enhancedElFormRef.value?.clearValidate(...args);
 
 defineExpose({
