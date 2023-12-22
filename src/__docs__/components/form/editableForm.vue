@@ -1,5 +1,11 @@
 <template>
-  <EnhancedElForm ref="formRef" :model="model" :schema="schema" canEditing>
+  <EnhancedElForm
+    ref="formRef"
+    :model="model"
+    :schema="schema"
+    canEditing
+    :alwaysEditableColumns="['password']"
+  >
     <template #form-other="{ isEditing }">
       <el-alert
         v-if="!isEditing && !model.other"
