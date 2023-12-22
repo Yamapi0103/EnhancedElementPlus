@@ -32,8 +32,9 @@ const formRef = ref<InstanceType<typeof EnhancedElForm>>(null);
 const model = ref({
   name: 'Joshua Yeh',
   phone: '0900123456',
-  email: '',
+  email: 'yamapi0103@gmail.com',
   password: '',
+  deposit: 1000000,
   other: '',
 });
 
@@ -88,6 +89,12 @@ const schema = computed(() => [
       type: 'password',
       showPassword: true,
     },
+  },
+  {
+    label: '存款',
+    prop: 'deposit',
+    type: 'input-number',
+    formater: (value: number) => value.toLocaleString(),
   },
   {
     label: '其他',
