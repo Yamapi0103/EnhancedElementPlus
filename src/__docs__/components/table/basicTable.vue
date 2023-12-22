@@ -3,9 +3,6 @@
     <template #col-hobby="{ row }">
       {{ row.hobby.join('、') }}
     </template>
-    <template #col-work="{ row }">
-      {{ row.work ? '是' : '否' }}
-    </template>
   </EnhancedElTable>
 </template>
 
@@ -64,8 +61,8 @@ const columns = computed(() => [
   {
     prop: 'work',
     label: '在職中',
-    minWidth: 100,
-    type: 'slot',
+    minWidth: 50,
+    formatter: (value: boolean) => (value ? '是' : '否'),
   },
   {
     prop: 'remark',

@@ -14,8 +14,7 @@
     :span-method="spanMethod"
     :header-cell-class-name="headerClassName"
   >
-    <el-table-column v-if="showIndex" type="index" width="50">
-    </el-table-column>
+    <el-table-column v-if="showIndex" type="index" width="50"></el-table-column>
     <template v-for="(column, index) in columns" :key="index">
       <!-- checkbox -->
       <template v-if="column.type === 'selection'">
@@ -59,29 +58,11 @@
               :column="column"
             />
           </template>
-          <!-- solt Default -->
-          <template v-else-if="column.type === 'default'">
-            <slot
-              :$index="scope.$index"
-              :data="scope.row[column.prop]"
-              :row="scope.row"
-              :column="column"
-              name="default"
-            />
-          </template>
-          <template v-else-if="column.type === 'timeLineBreak'">
-            <span
-              v-if="scope.row[column.prop]"
-              v-html="
-                scope.row[column.prop]
-                  .split(' ')
-                  .join('<br/>')
-                  .replace('+0800', '')
-              "
-            ></span>
-          </template>
           <span v-else>
-            {{ scope.row[column.prop] }}
+            {{
+              column.formatter?.(scope.row[column.prop]) ||
+              scope.row[column.prop]
+            }}
           </span>
         </template>
       </el-table-column>
@@ -89,17 +70,31 @@
   </el-table>
 </template>
 <script setup lang="ts">
-import { ElTable } from 'element-plus';
+import { ElTable, ElTableColumn } from 'element-plus';
 import { ref, VNode } from 'vue';
 
 interface LbRenderProps {
-  scope: any;
-  render: (scope: any) => VNode;
+  scope: { [key: string]: any };
+  render?: (scope: any) => VNode;
+}
+interface ColumnType {
+  type?: 'selection' | 'expand' | 'slot';
+  prop: string;
+  label: string;
+  width: string | number;
+  minWidth: string | number;
+  show?: () => boolean;
+  selectable?: (row: any) => boolean;
+  render?: (scope: { [key: string]: any }) => VNode;
+  resizable?: boolean;
+  className?: string;
+  renderHeader?: ({ column, $index }) => VNode;
+  formatter?: (value: any) => string;
 }
 
 defineProps<{
-  columns: Array<any>;
-  data: Array<any>;
+  columns: Array<ColumnType>;
+  data: Array<{ [key: string]: any }>;
   loading?: boolean;
   stripe?: boolean;
   showIndex?: boolean;
@@ -114,16 +109,15 @@ defineProps<{
 }>();
 
 const elTableRef = ref<HTMLDivElement | null>(null);
-const LbRender = (ctx: LbRenderProps) =>
-  ctx.render ? ctx.render(ctx.scope) : '';
+const LbRender = (ctx: LbRenderProps) => ctx.render?.(ctx.scope);
 
-const handleColumnVisible = (show: Function) => {
-  return typeof show === 'function' ? show?.() : true;
+const handleColumnVisible = (show?: Function) => {
+  return typeof show === 'function' ? show() : true;
 };
 
-const handleSelectable = (enable: Function, row: any) => {
+const handleSelectable = (enable: Function | undefined, row: any) => {
   // 讓外部selectable function可接參數row
-  return typeof enable === 'function' ? enable?.(row) : () => true;
+  return typeof enable === 'function' ? enable(row) : true;
 };
 const headerClassName = ({ column }) => {
   return 'column-' + column.property;
