@@ -20,7 +20,7 @@
       :class="`clazz-${config.prop} ${
         canEditing && !config.type ? 'curosr-pointer' : ''
       }`"
-      @click="canEditing && clickFormItem(config.prop)"
+      @click="canEditing && addEditingColumn(config.prop)"
     >
       <!-- slot 自定義列-->
       <template v-if="config.type === 'slot'">
@@ -183,7 +183,7 @@ const formSubmit = () => {
   if (compositionStart) return;
   enterSearch?.();
 };
-const clickFormItem = prop => {
+const addEditingColumn = prop => {
   editingColumn.add(prop);
 };
 const clearEditingColumn = prop => {
