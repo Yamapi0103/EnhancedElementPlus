@@ -56,26 +56,24 @@ const schema = computed(() => [
     attrs: {
       multiple: true,
     },
-    props: {
-      options: [
-        {
-          label: '籃球',
-          value: 'basketball',
-        },
-        {
-          label: '桌球',
-          value: 'billiards',
-        },
-        {
-          label: '網球',
-          value: 'table tennise',
-        },
-        {
-          label: '羽球',
-          value: 'badminton',
-        },
-      ],
-    },
+    options: [
+      {
+        label: '籃球',
+        value: 'basketball',
+      },
+      {
+        label: '桌球',
+        value: 'billiards',
+      },
+      {
+        label: '網球',
+        value: 'table_tennise',
+      },
+      {
+        label: '羽球',
+        value: 'badminton',
+      },
+    ],
   },
   {
     label: '在職中',

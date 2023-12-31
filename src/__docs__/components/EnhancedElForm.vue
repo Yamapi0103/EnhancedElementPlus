@@ -41,7 +41,7 @@
           @change="config.change ? config.change($event, model) : () => {}"
         >
           <el-option
-            v-for="(item, index) in config.props.options"
+            v-for="(item, index) in config.options"
             :key="index"
             :value="typeof item === 'object' ? item.value : item"
             :label="typeof item === 'object' ? item.label : item"
@@ -51,7 +51,7 @@
       <template v-else-if="config.type === 'radio'">
         <el-radio-group v-model="model[config.prop]">
           <el-radio
-            v-for="(item, index) in config.props.options"
+            v-for="(item, index) in config.options"
             :key="index"
             :label="item.value"
           >
@@ -104,9 +104,7 @@ interface SchemaProps {
   rules?: Arrayable<FormItemRule>;
   render: (scope: ModelProps) => VNode;
   change?: (value: any, model: ModelProps) => void;
-  props: {
-    options: OptionType | string[];
-  };
+  options?: OptionType | string[];
   defaultValue?: any;
   formater?: (value: any) => string;
 }
