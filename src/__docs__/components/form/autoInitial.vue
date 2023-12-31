@@ -41,18 +41,16 @@ const schemaArray = [
     prop: 'sex',
     rules: { required: true, message: '請選擇性別', trigger: 'blur' },
     type: 'radio',
-    props: {
-      options: [
-        {
-          label: '男',
-          value: 'male',
-        },
-        {
-          label: '女',
-          value: 'female',
-        },
-      ],
-    },
+    options: [
+      {
+        label: '男',
+        value: 'male',
+      },
+      {
+        label: '女',
+        value: 'female',
+      },
+    ],
     defaultValue: 'male',
   },
   {

@@ -36,18 +36,16 @@ const schema = computed(() => [
     label: '性別',
     prop: 'sex',
     type: 'radio',
-    props: {
-      options: [
-        {
-          label: '男',
-          value: 'male',
-        },
-        {
-          label: '女',
-          value: 'female',
-        },
-      ],
-    },
+    options: [
+      {
+        label: '男',
+        value: 'male',
+      },
+      {
+        label: '女',
+        value: 'female',
+      },
+    ],
   },
   {
     label: '興趣',
