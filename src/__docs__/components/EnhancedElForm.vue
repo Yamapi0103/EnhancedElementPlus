@@ -195,8 +195,7 @@ const clearEditingColumn = prop => {
   }
 };
 
-if (enhancedElFormRef.value) {
-}
+
 const validate = (...args: any) => enhancedElFormRef.value?.validate(...args);
 const resetFields = (...args: any) =>
   enhancedElFormRef.value?.resetFields(...args);
@@ -208,7 +207,6 @@ const clearValidate = (...args: any) =>
   enhancedElFormRef.value?.clearValidate(...args);
 
 defineExpose({
-  enhancedElFormRef,
   editingColumn,
   clearEditingColumn,
   validate,
