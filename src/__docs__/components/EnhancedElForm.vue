@@ -80,7 +80,15 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import { ref, defineExpose, reactive, computed, watch, VNode } from 'vue';
+import {
+  ref,
+  defineExpose,
+  reactive,
+  computed,
+  watch,
+  VNode,
+  toRefs,
+} from 'vue';
 import _ from 'lodash';
 import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
 import { FormItemRule } from 'element-plus';
@@ -138,6 +146,8 @@ const {
   alwaysEditableColumns,
 } = props;
 
+const { schema, model } = toRefs(props);
+
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
 const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
@@ -148,15 +158,15 @@ const LbRender = (lbProps: LbRenderProps) =>
 alwaysEditableColumns.forEach(prop => editingColumn.add(prop));
 
 watch(
-  () => props.schema,
+  schema,
   list => {
     // model 若帶著入空物件，可依據schema defaultValue給預設值
     if (!list) return;
     for (let i = 0; i < list.length; i++) {
       const formitem = list[i];
       const { prop, defaultValue = '' } = formitem;
-      if (!props.model.hasOwnProperty(prop)) {
-        props.model[prop] = defaultValue;
+      if (!model.value.hasOwnProperty(prop)) {
+        model.value[prop] = defaultValue;
       }
     }
   },
@@ -166,8 +176,8 @@ watch(
 );
 
 const processedSchema = computed<SchemaProps[]>(() => {
-  if (!canEditing) return props.schema;
-  const newSchema = props.schema.map(config => {
+  if (!canEditing) return schema.value;
+  const newSchema = schema.value.map(config => {
     const { prop, type } = config;
     if (!type) return config; // 本來就沒定義type表示純顯示
     if (!editingColumn.has(prop)) {
@@ -194,7 +204,6 @@ const clearEditingColumn = prop => {
     editingColumn.delete(prop);
   }
 };
-
 
 const validate = (...args: any) => enhancedElFormRef.value?.validate(...args);
 const resetFields = (...args: any) =>
