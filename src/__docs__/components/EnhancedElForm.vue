@@ -150,7 +150,6 @@ const {
 } = props;
 
 const model = useVModel(props, 'modelValue', emit);
-const { schema } = toRefs(props);
 
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
@@ -162,7 +161,7 @@ const LbRender = (lbProps: LbRenderProps) =>
 alwaysEditableColumns.forEach(prop => editingColumn.add(prop));
 
 watch(
-  schema,
+  () => props.schema,
   list => {
     // model 若帶著入空物件，可依據schema defaultValue給預設值
     if (!list) return;
@@ -180,8 +179,8 @@ watch(
 );
 
 const processedSchema = computed<SchemaProps[]>(() => {
-  if (!canEditing) return schema.value;
-  const newSchema = schema.value.map(config => {
+  if (!canEditing) return props.schema;
+  const newSchema = props.schema.map(config => {
     const { prop, type } = config;
     if (!type) return config; // 本來就沒定義type表示純顯示
     if (!editingColumn.has(prop)) {
