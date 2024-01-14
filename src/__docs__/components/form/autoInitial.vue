@@ -6,7 +6,7 @@
       :name="item.name"
       :label="item.label"
     >
-      <EnhancedElForm :model="model" :schema="schema" />
+      <EnhancedElForm v-model="model" :schema="schema" />
     </el-tab-pane>
   </el-tabs>
   <div>model: {{ model }}</div>

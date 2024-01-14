@@ -1,6 +1,6 @@
 <template>
   <div class="basic-form">
-    <EnhancedElForm class="my-form" :model="model" :schema="schema">
+    <EnhancedElForm class="my-form" v-model="model" :schema="schema">
       <template #form-submit>
         <el-button class="submit" type="primary" @click="submit">
           提交表單

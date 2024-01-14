@@ -1,5 +1,5 @@
 <template>
-  <EnhancedElForm :model="model" :schema="schema" />
+  <EnhancedElForm v-model="model" :schema="schema" />
 </template>
 
 <script setup lang="ts">

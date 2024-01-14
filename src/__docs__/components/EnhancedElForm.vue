@@ -94,6 +94,7 @@ import { OptionType } from 'element-plus/es/components/select-v2/src/select.type
 import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
 import { ElForm, FormItemProp } from 'element-plus';
+import { useVModel } from '@vueuse/core';
 
 interface LbRenderProps {
   render: (model: ModelProps) => VNode;
@@ -119,7 +120,7 @@ interface SchemaProps {
 
 const props = withDefaults(
   defineProps<{
-    model: ModelProps;
+    modelValue: ModelProps;
     schema: SchemaProps[];
     labelWidth?: string | number;
     canEditing?: boolean;
@@ -136,6 +137,8 @@ const props = withDefaults(
   },
 );
 
+const emit = defineEmits(['update:modelValue']);
+
 const {
   labelWidth,
   canEditing,
@@ -146,14 +149,15 @@ const {
   alwaysEditableColumns,
 } = props;
 
-const { schema, model } = toRefs(props);
+const model = useVModel(props, 'modelValue', emit);
+const { schema } = toRefs(props);
 
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
 const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
 
 const LbRender = (lbProps: LbRenderProps) =>
-  lbProps.render ? lbProps.render(props.model) : '';
+  lbProps.render ? lbProps.render(model) : '';
 
 alwaysEditableColumns.forEach(prop => editingColumn.add(prop));
 

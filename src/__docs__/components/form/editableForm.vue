@@ -1,7 +1,7 @@
 <template>
   <EnhancedElForm
     ref="formRef"
-    :model="model"
+    v-model="model"
     :schema="schema"
     canEditing
     :alwaysEditableColumns="['password']"
