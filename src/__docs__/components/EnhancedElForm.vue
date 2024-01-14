@@ -80,7 +80,15 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import { ref, defineExpose, reactive, computed, watch, VNode } from 'vue';
+import {
+  ref,
+  defineExpose,
+  reactive,
+  computed,
+  watch,
+  VNode,
+  toRefs,
+} from 'vue';
 import _ from 'lodash';
 import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
 import { FormItemRule } from 'element-plus';
@@ -126,20 +134,22 @@ const props = withDefaults(
     labelWidth: '',
     labelPosition: 'right',
     alwaysEditableColumns: () => [],
+    enterSearch: () => {},
   },
 );
 
 const emit = defineEmits(['update:modelValue']);
 
 const {
-  labelWidth,
+  schema,
   canEditing,
+  labelWidth,
   isInline,
   enterSearch,
   labelPosition,
   disabled,
   alwaysEditableColumns,
-} = props;
+} = toRefs(props);
 
 const model = useVModel(props, 'modelValue', emit);
 
@@ -150,7 +160,7 @@ const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(model) : '';
 
-alwaysEditableColumns.forEach(prop => editingColumn.add(prop));
+alwaysEditableColumns.value.forEach(prop => editingColumn.add(prop));
 
 watch(
   () => props.schema,
@@ -171,8 +181,8 @@ watch(
 );
 
 const processedSchema = computed<SchemaProps[]>(() => {
-  if (!canEditing) return props.schema;
-  const newSchema = props.schema.map(config => {
+  if (!canEditing.value) return schema.value;
+  const newSchema = schema.value.map(config => {
     const { prop, type } = config;
     if (!type) return config; // 本來就沒定義type表示純顯示
     if (!editingColumn.has(prop)) {
@@ -186,7 +196,7 @@ const processedSchema = computed<SchemaProps[]>(() => {
 
 const formSubmit = () => {
   if (compositionStart) return;
-  enterSearch?.();
+  enterSearch.value?.();
 };
 const addEditingColumn = prop => {
   editingColumn.add(prop);
@@ -194,7 +204,7 @@ const addEditingColumn = prop => {
 const clearEditingColumn = prop => {
   if (!prop) {
     editingColumn.clear();
-    alwaysEditableColumns.forEach(column => editingColumn.add(column));
+    alwaysEditableColumns.value.forEach(column => editingColumn.add(column));
   } else {
     editingColumn.delete(prop);
   }
