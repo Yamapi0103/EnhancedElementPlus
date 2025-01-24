@@ -103,6 +103,7 @@ import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
 import { ElForm, FormItemProp } from 'element-plus';
 import { useVModel } from '@vueuse/core';
+import { ca } from 'element-plus/es/locale/index.js';
 
 interface LbRenderProps {
   render: (model: ModelProps) => VNode;
@@ -197,12 +198,17 @@ const processedSchema = computed<SchemaProps[]>(() => {
       return _.omit(config, 'type'); // 非編輯狀態的表單項使其純顯示表單值
     }
 
-    const handleOnBlur = () => {
+    const handleOnBlur = async () => {
       config.attrs?.onBlur; // 執行原本的onBlur
       if (type !== 'input') return;
-      // 僅 input處理 on blur 移除編輯狀態
+      // 僅 input處理 on blur 移除編輯狀態，若沒驗證成功則維持編輯狀態
       if (!alwaysEditableColumns.value.includes(prop)) {
-        editingColumn.delete(prop);
+        try {
+          await validateField(prop);
+          editingColumn.delete(prop);
+        } catch (e) {
+          console.log(e);
+        }
       }
     };
 
