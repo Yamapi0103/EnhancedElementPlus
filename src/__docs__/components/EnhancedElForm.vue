@@ -190,18 +190,16 @@ watch(
 );
 
 const processedSchema = computed<SchemaProps[]>(() => {
-  if (!canEditing.value) return schema.value;
+  if (!canEditing.value) return schema.value; // 非編輯模式，直接返回schema
   const newSchema = schema.value.map(config => {
     const { prop, type } = config;
-    if (!type) return config; // 本來就沒定義type表示純顯示
-    if (!editingColumn.has(prop)) {
-      // 獨立處理number 非編輯模式下加上千分位 反之變回數字
-      if (config.type !== 'slot') return _.omit(config, 'type');
+    if (!editingColumn.has(prop) && config.type !== 'slot') {
+      return _.omit(config, 'type'); // 非編輯狀態的表單項使其純顯示表單值
     }
 
     const handleOnBlur = () => {
       config.attrs?.onBlur; // 執行原本的onBlur
-      if (type !== 'input') return; 
+      if (type !== 'input') return;
       // 僅 input處理 on blur 移除編輯狀態
       if (!alwaysEditableColumns.value.includes(prop)) {
         editingColumn.delete(prop);
