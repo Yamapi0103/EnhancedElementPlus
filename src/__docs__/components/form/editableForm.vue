@@ -14,7 +14,12 @@
         type="info"
         :closable="false"
       />
-      <el-input v-if="isEditing" type="textarea" v-model="model.other" />
+      <el-input
+        v-if="isEditing"
+        type="textarea"
+        v-model="model.other"
+        @blur="handleBlurOther"
+      />
       <div v-else class="cursor-pointer">
         {{ model.other }}
       </div>
@@ -146,6 +151,10 @@ const submit = () => {
       formRef.value.editingColumn.add(key);
     });
   });
+};
+
+const handleBlurOther = () => {
+  formRef.value.clearEditingColumn('other');
 };
 </script>
 <style>
