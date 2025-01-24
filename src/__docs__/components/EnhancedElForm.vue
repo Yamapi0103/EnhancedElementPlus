@@ -66,6 +66,13 @@
           v-bind="config.attrs"
         />
       </template>
+      <template v-else-if="config.type === 'input'">
+        <el-input
+          :ref="(vc: any)=>inputRefs[config.prop] =vc"
+          v-model="model[config.prop]"
+          v-bind="config.attrs"
+        />
+      </template>
       <component
         v-else-if="config.type"
         :is="`el-${config.type}`"
@@ -88,6 +95,7 @@ import {
   watch,
   VNode,
   toRefs,
+  nextTick,
 } from 'vue';
 import _ from 'lodash';
 import { OptionType } from 'element-plus/es/components/select-v2/src/select.types';
@@ -108,7 +116,7 @@ interface SchemaProps {
   label?: string;
   prop: string;
   attrs: {
-    [key: string]: string;
+    [key: string]: any;
   };
   rules?: Arrayable<FormItemRule>;
   render: (scope: ModelProps) => VNode;
@@ -156,6 +164,7 @@ const model = useVModel(props, 'modelValue', emit);
 const editingColumn = reactive(new Set());
 const compositionStart = ref(false);
 const enhancedElFormRef = ref<InstanceType<typeof ElForm>>();
+const inputRefs = reactive<Record<string, any>>({});
 
 const LbRender = (lbProps: LbRenderProps) =>
   lbProps.render ? lbProps.render(model) : '';
@@ -168,8 +177,8 @@ watch(
     // model 若帶著入空物件，可依據schema defaultValue給預設值
     if (!list) return;
     for (let i = 0; i < list.length; i++) {
-      const formitem = list[i];
-      const { prop, defaultValue = '' } = formitem;
+      const formItem = list[i];
+      const { prop, defaultValue = '' } = formItem;
       if (!model.value.hasOwnProperty(prop)) {
         model.value[prop] = defaultValue;
       }
@@ -189,6 +198,20 @@ const processedSchema = computed<SchemaProps[]>(() => {
       // 獨立處理number 非編輯模式下加上千分位 反之變回數字
       if (config.type !== 'slot') return _.omit(config, 'type');
     }
+
+    const handleOnBlur = () => {
+      config.attrs?.onBlur; // 執行原本的onBlur
+      if (type !== 'input') return; 
+      // 僅 input處理 on blur 移除編輯狀態
+      if (!alwaysEditableColumns.value.includes(prop)) {
+        editingColumn.delete(prop);
+      }
+    };
+
+    config.attrs = {
+      ...config.attrs,
+      onBlur: handleOnBlur,
+    };
     return config;
   });
   return newSchema;
@@ -198,10 +221,13 @@ const formSubmit = () => {
   if (compositionStart) return;
   enterSearch.value?.();
 };
-const addEditingColumn = prop => {
+const addEditingColumn = (prop: string) => {
   editingColumn.add(prop);
+  nextTick(() => {
+    inputRefs[prop]?.focus();
+  });
 };
-const clearEditingColumn = prop => {
+const clearEditingColumn = (prop: string) => {
   if (!prop) {
     editingColumn.clear();
     alwaysEditableColumns.value.forEach(column => editingColumn.add(column));

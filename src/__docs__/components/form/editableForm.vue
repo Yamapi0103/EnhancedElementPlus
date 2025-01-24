@@ -33,8 +33,10 @@ const model = ref({
   name: 'Joshua Yeh',
   phone: '0900123456',
   email: 'yamapi0103@gmail.com',
-  password: '',
+  sex: 'male',
+  password: 'qwe123',
   deposit: 1000000,
+  note: '',
   other: '',
 });
 
@@ -48,6 +50,22 @@ const schema = computed(() => [
       message: '請輸入姓名',
       trigger: 'blur',
     },
+  },
+  {
+    label: '性別',
+    prop: 'sex',
+    type: 'select',
+    options: [
+      {
+        label: '男',
+        value: 'male',
+      },
+      {
+        label: '女',
+        value: 'female',
+      },
+    ],
+    formater: (value: string) => (value === 'male' ? '男' : '女'),
   },
   {
     label: '電話',
@@ -95,6 +113,16 @@ const schema = computed(() => [
     prop: 'deposit',
     type: 'input-number',
     formater: (value: number) => value.toLocaleString(),
+  },
+  {
+    label: '備註',
+    type: 'input',
+    prop: 'note',
+    attrs: {
+      type: 'textarea',
+      rows: 2,
+      placeholder: '請輸入備註',
+    },
   },
   {
     label: '其他',

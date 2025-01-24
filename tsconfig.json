@@ -18,7 +18,10 @@
     "declaration": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "types": [],
     "skipLibCheck": true,
     // "files": "src/index.ts",
@@ -26,9 +29,16 @@
     "declarationDir": "dist",
     "rootDir": ".",
     "paths": {
-      "@src/*": ["src/*"]
+      "@src/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["src/*"],
-  "exclude": ["node_modules", "dist", "packages/**/__tests__"]
+  "include": [
+    "src/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
