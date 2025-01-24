@@ -136,21 +136,20 @@ const schema = computed(() => [
   },
 ]);
 
-const submit = () => {
-  formRef.value.validate((isPass, errorField) => {
-    if (isPass) {
-      ElMessage({
-        message: '送出成功',
-        type: 'success',
-      });
-      formRef.value.clearEditingColumn();
-      return;
-    }
-    const errKeys = Object.keys(errorField);
+const submit = async () => {
+  try {
+    await formRef.value.validate();
+    ElMessage({
+      message: '送出成功',
+      type: 'success',
+    });
+    formRef.value.clearEditingColumn();
+  } catch (error) {
+    const errKeys = Object.keys(error);
     errKeys.forEach(key => {
       formRef.value.editingColumn.add(key);
     });
-  });
+  }
 };
 
 const handleBlurOther = () => {
