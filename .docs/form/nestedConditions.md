@@ -4,7 +4,7 @@ map:
 realPath: src/__docs__/form/nestedConditions.md
 ---
 
-## 巢狀條件是渲染表單
+## 巢狀條件式渲染表單
 
 支援nested schema: **nestedSchema**，eg. 姓名底下的外號欄位
 
