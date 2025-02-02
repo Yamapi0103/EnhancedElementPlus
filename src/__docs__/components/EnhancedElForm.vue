@@ -84,6 +84,9 @@
         {{ config.formater?.(model[config.prop]) || model[config.prop] }}
       </template>
     </el-form-item>
+    <div class="footer-wrap">
+      <slot name="footer"></slot>
+    </div>
   </el-form>
 </template>
 <script setup lang="ts">

@@ -1,7 +1,7 @@
 <template>
   <div class="basic-form">
     <EnhancedElForm class="my-form" v-model="model" :schema="schema">
-      <template #form-submit>
+      <template #footer>
         <el-button class="submit" type="primary" @click="submit">
           提交表單
         </el-button>
@@ -113,10 +113,6 @@ const schema = computed(() => [
       type: 'textarea',
     },
   },
-  {
-    type: 'slot',
-    prop: 'submit',
-  },
 ]);
 
 const submit = () => {
@@ -129,11 +125,9 @@ const submit = () => {
 
 <style lang="scss" scoped>
 .basic-form {
-  :deep(.clazz-submit) {
-    .el-form-item__content {
-      display: flex;
-      flex-direction: row-reverse;
-    }
+  :deep(.footer-wrap) {
+    display: flex;
+    flex-direction: row-reverse;
   }
 }
 </style>
