@@ -103,7 +103,6 @@ import { FormItemRule } from 'element-plus';
 import { Arrayable } from 'element-plus/es/utils';
 import { ElForm, FormItemProp } from 'element-plus';
 import { useVModel } from '@vueuse/core';
-import { ca } from 'element-plus/es/locale/index.js';
 
 interface LbRenderProps {
   render: (model: ModelProps) => VNode;
@@ -147,7 +146,7 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits();
 
 const {
   schema,
