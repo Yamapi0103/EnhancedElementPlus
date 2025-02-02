@@ -83,6 +83,10 @@
       <template v-else>
         {{ config.formater?.(model[config.prop]) || model[config.prop] }}
       </template>
+      <EnhancedElForm
+        :schema="config.nestedSchema?.(model[config.prop])"
+        v-model="model"
+      />
     </el-form-item>
     <div class="footer-wrap">
       <slot name="footer"></slot>
@@ -127,6 +131,7 @@ interface SchemaProps {
   options?: OptionType | string[];
   defaultValue?: any;
   formater?: (value: any) => string;
+  nestedSchema?: SchemaProps;
 }
 
 const props = withDefaults(
@@ -142,6 +147,7 @@ const props = withDefaults(
     alwaysEditableColumns?: string[];
   }>(),
   {
+    schema: () => [],
     labelWidth: '',
     labelPosition: 'right',
     alwaysEditableColumns: () => [],
@@ -178,10 +184,10 @@ watch(
   () => props.schema,
   list => {
     // model 若帶著入空物件，可依據schema defaultValue給預設值
-    if (!list) return;
     for (let i = 0; i < list.length; i++) {
       const formItem = list[i];
       const { prop, defaultValue = '' } = formItem;
+      console.log("🚀 ~ defaultValue:", defaultValue)
       if (!model.value.hasOwnProperty(prop)) {
         model.value[prop] = defaultValue;
       }
@@ -264,6 +270,15 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+.enhanced-el-form .enhanced-el-form {
+  flex-basis: 100%;
+  :deep(.el-form-item) {
+    &:first-child {
+      margin-top: 18px;
+    }
+    margin-bottom: 18px;
+  }
+}
 :deep(.el-form-item) {
   &.curosr-pointer {
     cursor: pointer;
