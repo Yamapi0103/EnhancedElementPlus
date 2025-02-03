@@ -1,6 +1,7 @@
 <template>
   <div class="basic-form">
     <EnhancedElForm v-model="model" :schema="schema"></EnhancedElForm>
+    <div>model {{ model }}</div>
   </div>
 </template>
 
@@ -41,6 +42,7 @@ const schema = computed(() => [
       },
     ],
     nestedSchema: (value: 'male' | 'female') => {
+      // 當選擇性別為女生時，需填寫三圍
       if (value === 'female') {
         return [
           {

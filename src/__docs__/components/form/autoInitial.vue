@@ -108,8 +108,4 @@ const schema = computed(() => {
   };
   return schemaMap[activeTab.value];
 });
-
-watch(activeTab, () => {
-  model.value = {};
-});
 </script>

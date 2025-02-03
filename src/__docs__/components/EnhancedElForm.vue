@@ -83,10 +83,12 @@
       <template v-else>
         {{ config.formater?.(model[config.prop]) || model[config.prop] }}
       </template>
-      <EnhancedElForm
-        :schema="config.nestedSchema?.(model[config.prop])"
-        v-model="model"
-      />
+      <template v-if="typeof config.nestedSchema === 'function'">
+        <EnhancedElForm
+          :schema="config.nestedSchema?.(model[config.prop])"
+          v-model="model"
+        />
+      </template>
     </el-form-item>
     <div class="footer-wrap">
       <slot name="footer"></slot>
@@ -131,7 +133,7 @@ interface SchemaProps {
   options?: OptionType | string[];
   defaultValue?: any;
   formater?: (value: any) => string;
-  nestedSchema?: SchemaProps;
+  nestedSchema?: (value: any) => SchemaProps;
 }
 
 const props = withDefaults(
@@ -180,14 +182,26 @@ const LbRender = (lbProps: LbRenderProps) =>
 
 alwaysEditableColumns.value.forEach(prop => editingColumn.add(prop));
 
+const clearOldSchema = (oldSchema: SchemaProps[], newSchema: SchemaProps[]) => {
+  const oldProps = oldSchema?.map(item => item.prop);
+  const newList = newSchema.map(item => item.prop);
+  const oldDiffs = _.difference(oldProps, newList); // oldDiffs = oldProps exclude newList
+  oldDiffs.forEach(prop => {
+    delete model.value[prop];
+  });
+};
+
 watch(
   () => props.schema,
-  list => {
+  (list, oldList = []) => {
+    
+    // 當schema變動時，清除model上舊的schema prop
+    clearOldSchema(oldList, list);
+
     // model 若帶著入空物件，可依據schema defaultValue給預設值
     for (let i = 0; i < list.length; i++) {
       const formItem = list[i];
       const { prop, defaultValue = '' } = formItem;
-      console.log("🚀 ~ defaultValue:", defaultValue)
       if (!model.value.hasOwnProperty(prop)) {
         model.value[prop] = defaultValue;
       }
