@@ -24,8 +24,10 @@
         {{ model.other }}
       </div>
     </template>
+    <template #footer>
+      <el-button type="primary" @click="submit">送出</el-button>
+    </template>
   </EnhancedElForm>
-  <el-button @click="submit">送出</el-button>
 </template>
 
 <script setup lang="ts">
@@ -156,8 +158,13 @@ const handleBlurOther = () => {
   formRef.value.clearEditingColumn('other');
 };
 </script>
-<style>
+<style scoped lang="scss">
 .cursor-pointer {
   cursor: pointer;
+}
+
+:deep(.footer-wrap) {
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>
