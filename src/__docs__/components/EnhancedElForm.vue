@@ -194,7 +194,6 @@ const clearOldSchema = (oldSchema: SchemaProps[], newSchema: SchemaProps[]) => {
 watch(
   () => props.schema,
   (list, oldList = []) => {
-    
     // 當schema變動時，清除model上舊的schema prop
     clearOldSchema(oldList, list);
 
@@ -215,14 +214,13 @@ watch(
 const processedSchema = computed<SchemaProps[]>(() => {
   if (!canEditing.value) return schema.value; // 非編輯模式，直接返回schema
   const newSchema = schema.value.map(config => {
-    const { prop, type } = config;
+    const { prop } = config;
     if (!editingColumn.has(prop) && config.type !== 'slot') {
       return _.omit(config, 'type'); // 非編輯狀態的表單項使其純顯示表單值
     }
 
     const handleOnBlur = async () => {
       config.attrs?.onBlur; // 執行原本的onBlur
-      if (type !== 'input') return;
       // 僅 input處理 on blur 移除編輯狀態，若沒驗證成功則維持編輯狀態
       if (!alwaysEditableColumns.value.includes(prop)) {
         try {
